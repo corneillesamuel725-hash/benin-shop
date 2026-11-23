@@ -23,7 +23,7 @@ function BoutiquePubliqueContent() {
   if (loading) return <div style={{ padding: 40, fontFamily: "sans-serif", textAlign: "center" }}>Chargement de la boutique...</div>;
   if (!vendeur) return <div style={{ padding: 40, fontFamily: "sans-serif", textAlign: "center" }}>Boutique introuvable</div>;
 
-  if (vendeur.suspendu) {
+  if (!vendeur.is_active) {
     return (
       <div style={{ minHeight: "100vh", background: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, fontFamily: "Inter, system-ui, sans-serif" }}>
         <div style={{ background: "white", maxWidth: 480, width: "100%", padding: 32, borderRadius: 20, textAlign: "center", boxShadow: "0 10px 30px rgba(0,0,0,0.08)" }}>
