@@ -1,7 +1,9 @@
 "use client";
-const ADMIN_EMAIL = "corneillesamuel725@gmail.com";
+
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "../../supabase";
+
+const ADMIN_EMAIL = "corneillesamuel725@gmail.com";
 
 export default function AdminPage() {
   const [vendeurs, setVendeurs] = useState([]);
@@ -9,6 +11,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => { init(); }, []);
+
   async function init() {
     const { data } = await supabase.auth.getUser();
     const e = data.user?.email || "";
@@ -19,19 +22,23 @@ export default function AdminPage() {
     }
     setLoading(false);
   }
+
   async function toggle(v) {
     await supabase.from("vendeurs").update({ is_active: !v.is_active }).eq("id", v.id);
     init();
   }
+
   async function supprimer(v) {
     if (!confirm(`Supprimer ${v.nom_boutique} ?`)) return;
     await supabase.from("vendeurs").delete().eq("id", v.id);
     init();
   }
+
   if (loading) return <p style={{padding:20}}>Chargement...</p>;
   if (email !== ADMIN_EMAIL) return <p style={{padding:20}}>Accès refusé</p>;
+
   return (
-    <div style={{padding:20, maxWidth:800, margin:"0 auto"}}>
+    <div style={{padding:20, maxWidth:800, margin:"0 auto", fontFamily:"sans-serif"}}>
       <h1>Admin - Vendeurs ({vendeurs.length})</h1>
       {vendeurs.map(v => (
         <div key={v.id} style={{border:"1px solid #ddd", padding:12, marginBottom:10, borderRadius:8}}>
