@@ -31,7 +31,7 @@ function BoutiquePubliqueContent() {
           <h1 style={{ fontSize: 24, margin: "12px 0" }}>Boutique suspendue</h1>
           <p style={{ color: "#6b7280", lineHeight: 1.6 }}>Cette boutique est temporairement suspendue car l'abonnement n'a pas été payé.</p>
           <p style={{ fontWeight: 700, marginTop: 16 }}>Tu es le propriétaire ?</p>
-          <a href={`https://wa.me/22900000000?text=${encodeURIComponent("Bonjour, je veux payer pour réactiver ma boutique " + vendeur.nom_boutique)}`} target="_blank" style={{ display: "block", marginTop: 12, background: "#16a34a", color: "white", padding: 14, borderRadius: 12, textDecoration: "none", fontWeight: 800 }}>Payer pour réactiver</a>
+          <a href={`https://wa.me/2290167275906?text=${encodeURIComponent("Bonjour, je veux payer pour réactiver ma boutique " + vendeur.nom_boutique)}`} target="_blank" style={{ display: "block", marginTop: 12, background: "#16a34a", color: "white", padding: 14, borderRadius: 12, textDecoration: "none", fontWeight: 800 }}>Payer pour réactiver</a>
           <a href="/" style={{ display: "block", marginTop: 16, color: "#6b7280", fontSize: 14 }}>← Retour à Samishop</a>
         </div>
       </div>
