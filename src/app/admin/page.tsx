@@ -13,10 +13,10 @@ export default function AdminPage() {
   useEffect(() => { init(); }, []);
 
   async function init() {
-    const { data } = await supabase.auth.getUser();
-    const e = data.user?.email || "";
+    const { data } = await supabase.auth.getSession();
+    const e = data.session?.user?.email || "";
     setEmail(e);
-    if (e === ADMIN_EMAIL) {
+    if (e.toLowerCase().trim() === ADMIN_EMAIL) {
       const { data: v } = await supabase.from("vendeurs").select("*").order("created_at", { ascending: false });
       setVendeurs(v || []);
     }
@@ -35,11 +35,12 @@ export default function AdminPage() {
   }
 
   if (loading) return <p style={{padding:20}}>Chargement...</p>;
-  if (email !== ADMIN_EMAIL) return <p style={{padding:20}}>Accès refusé</p>;
+  if (email.toLowerCase().trim() !== ADMIN_EMAIL) return <p style={{padding:20}}>Accès refusé pour : {email || "non connecté"}</p>;
 
   return (
     <div style={{padding:20, maxWidth:800, margin:"0 auto", fontFamily:"sans-serif"}}>
       <h1>Admin - Vendeurs ({vendeurs.length})</h1>
+      <p>Connecté : {email}</p>
       {vendeurs.map(v => (
         <div key={v.id} style={{border:"1px solid #ddd", padding:12, marginBottom:10, borderRadius:8}}>
           <b>{v.nom_boutique}</b> - {v.is_active ? "✅ Active" : "❌ Suspendue"}<br/>
