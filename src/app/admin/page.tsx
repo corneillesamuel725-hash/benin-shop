@@ -20,7 +20,7 @@ export default function AdminPage() {
     const e = data.session?.user?.email || "";
     setEmail(e);
     if (e.toLowerCase().trim() === ADMIN_EMAIL) {
-      const { data: v } = await supabase.from("vendeurs").select("*").order("created_at", { ascending: false });
+      const { data: v } = await supabase.from("vendeurs").select("*").order("id", { ascending: false });
       setVendeurs(v || []);
     }
     setLoading(false);
@@ -41,7 +41,7 @@ export default function AdminPage() {
   }
 
   async function supprimer(v) {
-    if (!confirm(`Supprimer ${v.nom_boutique} ?`)) return;
+    if (!confirm(`Supprimer ${v.nom} ?`)) return;
     await supabase.from("vendeurs").delete().eq("id", v.id);
     init();
   }
@@ -51,14 +51,14 @@ export default function AdminPage() {
   if (!email) return (
     <div style={{padding:20, maxWidth:400, margin:"40px auto", fontFamily:"sans-serif"}}>
       <h2>Connexion Admin</h2>
-      <input value={loginEmail} onChange={e=>setLoginEmail(e.target.value)} placeholder="Email" style={{width:"100%", padding:10, marginBottom:10}} />
+      <input value={loginEmail} onChange={e=>setLoginEmail(e.target.value)} style={{width:"100%", padding:10, marginBottom:10}} />
       <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Mot de passe" style={{width:"100%", padding:10, marginBottom:10}} />
       {error && <p style={{color:"red"}}>{error}</p>}
       <button onClick={login} style={{width:"100%", padding:12, background:"#16a34a", color:"white", border:"none", borderRadius:8}}>Se connecter</button>
     </div>
   );
 
-  if (email.toLowerCase().trim() !== ADMIN_EMAIL) return <p style={{padding:20}}>Accès refusé pour : {email} <button onClick={logout}>Déconnexion</button></p>;
+  if (email.toLowerCase().trim() !== ADMIN_EMAIL) return <p style={{padding:20}}>Accès refusé pour : {email}</p>;
 
   return (
     <div style={{padding:20, maxWidth:800, margin:"0 auto", fontFamily:"sans-serif"}}>
@@ -66,8 +66,8 @@ export default function AdminPage() {
       <p>Connecté : {email} <button onClick={logout}>Déconnexion</button></p>
       {vendeurs.map(v => (
         <div key={v.id} style={{border:"1px solid #ddd", padding:12, marginBottom:10, borderRadius:8}}>
-          <b>{v.nom_boutique}</b> - {v.is_active ? "✅ Active" : "❌ Suspendue"}<br/>
-          WhatsApp : {v.whatsapp}
+          <b>{v.nom || "Sans nom"}</b> - {v.is_active ? "✅ Active" : "❌ Suspendue"}<br/>
+          Tél : {v.telephone || "-"} - Ville : {v.ville || "-"}
           <div style={{marginTop:10, display:"flex", gap:8}}>
             <button onClick={()=>toggle(v)} style={{background: v.is_active ? "#f59e0b":"#16a34a", color:"white", padding:"6px 12px", border:"none", borderRadius:6}}>{v.is_active ? "Désactiver" : "Activer"}</button>
             <button onClick={()=>supprimer(v)} style={{background:"#dc2626", color:"white", padding:"6px 12px", border:"none", borderRadius:6}}>Supprimer</button>
