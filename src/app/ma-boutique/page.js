@@ -14,7 +14,7 @@ function MaBoutiqueContent() {
 
   useEffect(() => {
     const id = localStorage.getItem("vendeur_id");
-    if (!id) { window.location.href = "/inscription"; return; }
+    if (!id) { window.location.href = "/connexion"; return; }
     setVendeurId(id);
     setNomBoutique(localStorage.getItem("nom_boutique") || "");
     setWhatsapp(localStorage.getItem("vendeur_whatsapp") || "");
@@ -35,7 +35,9 @@ function MaBoutiqueContent() {
   }
 
   function deconnexion() {
-    localStorage.clear();
+    localStorage.removeItem("vendeur_id");
+    localStorage.removeItem("nom_boutique");
+    localStorage.removeItem("vendeur_whatsapp");
     window.location.href = "/";
   }
 
